@@ -1,0 +1,28 @@
+# Build output
+build/
+cmake-build-*/
+out/
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+
+# Compiled objects and binaries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Testing artefacts (self-play PGNs, logs)
+*.pgn
+*.log
