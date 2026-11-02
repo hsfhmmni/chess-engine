@@ -12,15 +12,28 @@ endif()
 
 option(NATIVE "Optimise for this machine's CPU (enables popcnt/BMI2 where available)" ON)
 
-add_executable(engine
-  src/main.cpp
+# Everything except main(), shared by the engine and the tests.
+add_library(engine_core STATIC
+  src/bitboard.cpp
+  src/position.cpp
+  src/movegen.cpp
 )
+target_include_directories(engine_core PUBLIC src)
 
 if(MSVC)
-  target_compile_options(engine PRIVATE /W4)
+  target_compile_options(engine_core PUBLIC /W4)
 else()
-  target_compile_options(engine PRIVATE -Wall -Wextra -Wpedantic)
+  target_compile_options(engine_core PUBLIC -Wall -Wextra -Wpedantic)
   if(NATIVE)
-    target_compile_options(engine PRIVATE -march=native)
+    target_compile_options(engine_core PUBLIC -march=native)
   endif()
 endif()
+
+add_executable(engine src/main.cpp)
+target_link_libraries(engine PRIVATE engine_core)
+
+add_executable(perft_test tests/perft_test.cpp)
+target_link_libraries(perft_test PRIVATE engine_core)
+
+enable_testing()
+add_test(NAME perft COMMAND perft_test)

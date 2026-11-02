@@ -26,3 +26,15 @@ cmake --build build
 ```
 
 Pass `-DNATIVE=OFF` to build a portable binary without `-march=native`.
+
+## Testing the move generator
+
+```sh
+./build/perft_test           # quick suite, a few seconds
+./build/perft_test --deep    # deeper counts, about a minute
+./build/engine perft 5       # per-move breakdown from the start position
+./build/engine perft 3 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
+```
+
+The engine also reads commands on stdin: `position startpos moves e2e4`,
+`position fen <fen>`, `go perft <depth>`, `d` (show board) and `quit`.
